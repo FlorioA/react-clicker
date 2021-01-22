@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Hello React</title>
+    <!-- Library -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+		<link rel="stylesheet" href="style.css">
+		
+		<!-- BOOTSTRAP -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  // Création de composant en créant des classes
+  class App extends React.Component {
+
+      constructor() {
+          super();
+          this.state = {
+              counter: 0,
+							damagePerSecond: 0,
+
+							firstWarrior : {
+								name: 'Gribouille',
+								count: 0,
+								damage: 1,
+								recruitCost: 20,
+								improveCost: 50,
+							},
+
+							secondWarrior : {
+								name: 'Artal',
+								count: 0,
+								damage: 5,
+								recruitCost: 100,
+								improveCost: 150,
+							},
+
+							thirdWarrior : {
+								name: 'Malko',
+								count: 0,
+								damage: 10,
+								recruitCost: 500,
+								improveCost: 200,
+							},
+
+							fourthWarrior : {
+								name: 'Chevaron',
+								count: 0,
+								damage: 25,
+								recruitCost: 1000,
+								improveCost: 600,
+							},
+
+							fifthWarrior : {
+								name: 'Destrox',
+								count: 0,
+								damage: 100,
+								recruitCost: 5000,
+								improveCost: 1300,
+							}
+					}
+
+          this.incrementCounter = this.incrementCounter.bind(this);
+					this.updateDamageCounter = this.updateDamageCounter.bind(this);
+					
+					this.recruitFirstWarrior = this.recruitFirstWarrior.bind(this);
+					this.improveFirstWarrior = this.improveFirstWarrior.bind(this);
+					
+          this.recruitSecondWarrior = this.recruitSecondWarrior.bind(this);
+					this.improveSecondWarrior = this.improveSecondWarrior.bind(this);
+					
+          this.recruitThirdWarrior = this.recruitThirdWarrior.bind(this);
+					this.improveThirdWarrior = this.improveThirdWarrior.bind(this);
+					
+          this.recruitFourthWarrior = this.recruitFourthWarrior.bind(this);
+					this.improveFourthWarrior = this.improveFourthWarrior.bind(this);
+					
+          this.recruitFifthWarrior = this.recruitFifthWarrior.bind(this);
+          this.improveFifthWarrior = this.improveFifthWarrior.bind(this);
+
+
+          this.interval = setInterval(this.updateDamageCounter, 1000);
+      }
+
+      render() {
+				return (
+					<div className="container">
+
+						<div className="row">
+							<div className="col-lg-6 text-light text-center my-5">
+								<img id="monster_img" className="animation-target" onClick={this.incrementCounter} src={"img/trollguerrier.png"}/>
+								<h2>Monstre tabassé : {this.state.counter} fois</h2>
+							</div>
+
+
+							<div className="col-lg-6 card bg-secondary text-white my-5 px-0">
+								<ul className="list-group list-group-flush">
+
+									<div className="list-group-item bg-dark">
+										<h4>Dégâts des guerriers : {this.state.damagePerSecond} par seconde</h4>
+									</div>
+
+
+
+									<div className="list-group-item bg-secondary" id="first_warrior_card">
+										<div className="row">
+											<div className="col-2">
+												<img className="card-img warriors" src="img/chatguerrier.png" alt="Premier guerrier"/>
+											</div>
+											<div className="row col-7">
+												<h4 className="text-center mb-0">{this.state.firstWarrior.name}</h4>
+												{this.state.firstWarrior.recruitCost - this.state.counter >= 0 && this.state.firstWarrior.count === 0 &&
+													<div>
+														<p className="mb-0">Recrutable dans : {this.state.firstWarrior.recruitCost - this.state.counter} points</p>
+													</div>
+												}
+												{this.state.firstWarrior.count > 0 &&
+													<div>
+														<p className="mb-0">Dégâts par seconde : {this.state.firstWarrior.count}</p>
+														{this.state.firstWarrior.improveCost - this.state.counter >= 0 &&
+															<p className="mb-0">Prochaine amélioration dans : {this.state.firstWarrior.improveCost - this.state.counter} points</p>
+														}
+													</div>
+												}
+											</div>
+											<div className="col-3">
+												{this.state.counter >= this.state.firstWarrior.recruitCost && this.state.firstWarrior.count === 0 &&
+													<div>
+														<button type="button" className="btn btn-dark my-auto" onClick={this.recruitFirstWarrior}>Recruter {this.state.firstWarrior.name} (coût : {this.state.firstWarrior.recruitCost})</button>
+													</div>
+												}
+												{this.state.counter >= this.state.firstWarrior.improveCost && this.state.firstWarrior.count > 0 &&
+													(<div>
+														<button type="button" className="btn btn-dark my-auto" id="improve_1w" onClick={this.improveFirstWarrior} >Améliorer {this.state.firstWarrior.name} (coût : {this.state.firstWarrior.improveCost})</button>
+													</div>)
+												}
+											</div>
+										</div>
+									</div>
+
+									<div className="list-group-item bg-secondary" id="second_warrior_card">
+										<div className="row">
+											<div className="col-2">
+												<img className="card-img warriors" src="img/chienmage.png" alt="Deuxième guerrier"/>
+											</div>
+											<div className="row col-7">
+												<h4 className="text-center mb-0">{this.state.secondWarrior.name}</h4>
+												{this.state.secondWarrior.recruitCost - this.state.counter >= 0 && this.state.secondWarrior.count === 0 &&
+													<div>
+														<p className="mb-0">Recrutable dans : {this.state.secondWarrior.recruitCost - this.state.counter} points</p>
+													</div>
+												}
+												{this.state.secondWarrior.count > 0 &&
+													<div>
+														<p className="mb-0">Dégâts par seconde : {this.state.secondWarrior.count}</p>
+														{this.state.secondWarrior.improveCost - this.state.counter >= 0 &&
+															<p className="mb-0">Prochaine amélioration dans : {this.state.secondWarrior.improveCost - this.state.counter} points</p>
+														}
+													</div>
+												}
+											</div>
+											<div className="col-3">
+												{this.state.counter >= this.state.secondWarrior.recruitCost && this.state.secondWarrior.count === 0 &&
+													<div>
+														<button type="button" className="btn btn-dark my-auto" onClick={this.recruitSecondWarrior}>Recruter {this.state.secondWarrior.name} (coût : {this.state.secondWarrior.recruitCost})</button>
+													</div>
+												}
+												{this.state.counter >= this.state.secondWarrior.improveCost && this.state.secondWarrior.count > 0 &&
+													(<div>
+														<button type="button" className="btn btn-dark my-auto" id="improve_1w" onClick={this.improveSecondWarrior} >Améliorer {this.state.secondWarrior.name} (coût : {this.state.secondWarrior.improveCost})</button>
+													</div>)
+												}
+											</div>
+										</div>
+									</div>
+
+
+									<div className="list-group-item bg-secondary" id="third_warrior_card">
+										<div className="row">
+											<div className="col-2">
+												<img className="card-img warriors" src="img/malkoportrait.png" alt="Troisième guerrier"/>
+											</div>
+											<div className="row col-7">
+												<h4 className="text-center mb-0">{this.state.thirdWarrior.name}</h4>
+												{this.state.thirdWarrior.recruitCost - this.state.counter >= 0 && this.state.thirdWarrior.count === 0 &&
+													<div>
+														<p className="mb-0">Recrutable dans : {this.state.thirdWarrior.recruitCost - this.state.counter} points</p>
+													</div>
+												}
+												{this.state.thirdWarrior.count > 0 &&
+													<div>
+														<p className="mb-0">Dégâts par seconde : {this.state.thirdWarrior.count}</p>
+														{this.state.thirdWarrior.improveCost - this.state.counter >= 0 &&
+															<p className="mb-0">Prochaine amélioration dans : {this.state.thirdWarrior.improveCost - this.state.counter} points</p>
+														}
+													</div>
+												}
+											</div>
+											<div className="col-3">
+												{this.state.counter >= this.state.thirdWarrior.recruitCost && this.state.thirdWarrior.count === 0 &&
+													<div>
+														<button type="button" className="btn btn-dark my-auto" onClick={this.recruitThirdWarrior}>Recruter {this.state.thirdWarrior.name} (coût : {this.state.thirdWarrior.recruitCost})</button>
+													</div>
+												}
+												{this.state.counter >= this.state.thirdWarrior.improveCost && this.state.thirdWarrior.count > 0 &&
+													(<div>
+														<button type="button" className="btn btn-dark my-auto" id="improve_1w" onClick={this.improveThirdWarrior} >Améliorer {this.state.thirdWarrior.name} (coût : {this.state.thirdWarrior.improveCost})</button>
+													</div>)
+												}
+											</div>
+										</div>
+									</div>
+
+
+
+									<div className="list-group-item bg-secondary" id="fourth_warrior_card">
+										<div className="row">
+											<div className="col-2">
+												<img className="card-img warriors" src="img/guerrierportrait.png" alt="Quatrième guerrier"/>
+											</div>
+											<div className="row col-7">
+												<h4 className="text-center mb-0">{this.state.fourthWarrior.name}</h4>
+												{this.state.fourthWarrior.recruitCost - this.state.counter >= 0 && this.state.fourthWarrior.count === 0 &&
+													<div>
+														<p className="mb-0">Recrutable dans : {this.state.fourthWarrior.recruitCost - this.state.counter} points</p>
+													</div>
+												}
+												{this.state.fourthWarrior.count > 0 &&
+													<div>
+														<p className="mb-0">Dégâts par seconde : {this.state.fourthWarrior.count}</p>
+														{this.state.fourthWarrior.improveCost - this.state.counter >= 0 &&
+															<p className="mb-0">Prochaine amélioration dans : {this.state.fourthWarrior.improveCost - this.state.counter} points</p>
+														}
+													</div>
+												}
+											</div>
+											<div className="col-3">
+												{this.state.counter >= this.state.fourthWarrior.recruitCost && this.state.fourthWarrior.count === 0 &&
+													<div>
+														<button type="button" className="btn btn-dark my-auto" onClick={this.recruitFourthWarrior}>Recruter {this.state.fourthWarrior.name} (coût : {this.state.fourthWarrior.recruitCost})</button>
+													</div>
+												}
+												{this.state.counter >= this.state.fourthWarrior.improveCost && this.state.fourthWarrior.count > 0 &&
+													(<div>
+														<button type="button" className="btn btn-dark my-auto" id="improve_1w" onClick={this.improveFourthWarrior} >Améliorer {this.state.fourthWarrior.name} (coût : {this.state.fourthWarrior.improveCost})</button>
+													</div>)
+												}
+											</div>
+										</div>
+									</div>								
+
+
+									<div className="list-group-item bg-secondary" id="fifth_warrior_card">
+										<div className="row">
+											<div className="col-2">
+												<img className="card-img warriors" src="img/guerrierportrait.png" alt="Cinquième guerrier"/>
+											</div>
+											<div className="row col-7">
+												<h4 className="text-center mb-0">{this.state.fifthWarrior.name}</h4>
+												{this.state.fifthWarrior.recruitCost - this.state.counter >= 0 && this.state.fifthWarrior.count === 0 &&
+													<div>
+														<p className="mb-0">Recrutable dans : {this.state.fifthWarrior.recruitCost - this.state.counter} points</p>
+													</div>
+												}
+												{this.state.fifthWarrior.count > 0 &&
+													<div>
+														<p className="mb-0">Dégâts par seconde : {this.state.fifthWarrior.count}</p>
+														{this.state.fifthWarrior.improveCost - this.state.counter >= 0 &&
+															<p className="mb-0">Prochaine amélioration dans : {this.state.fifthWarrior.improveCost - this.state.counter} points</p>
+														}
+													</div>
+												}
+											</div>
+											<div className="col-3">
+												{this.state.counter >= this.state.fifthWarrior.recruitCost && this.state.fifthWarrior.count === 0 &&
+													<div>
+														<button type="button" className="btn btn-dark my-auto" onClick={this.recruitFifthWarrior}>Recruter {this.state.fifthWarrior.name} (coût : {this.state.fifthWarrior.recruitCost})</button>
+													</div>
+												}
+												{this.state.counter >= this.state.fifthWarrior.improveCost && this.state.fifthWarrior.count > 0 &&
+													(<div>
+														<button type="button" className="btn btn-dark my-auto" id="improve_1w" onClick={this.improveFifthWarrior} >Améliorer {this.state.fifthWarrior.name} (coût : {this.state.fifthWarrior.improveCost})</button>
+													</div>)
+												}
+											</div>
+										</div>
+									</div>
+
+
+
+
+								</ul>
+							</div>
+						</div>
+
+					</div>
+				)
+      }
+
+			// ----------------------------- COUNTER EVERY SEC -----------------------------
+      updateDamageCounter() {
+        this.setState({
+          counter: this.state.counter + this.state.damagePerSecond
+				})
+			}
+			
+			// ----------------------------- INCREMENT ON CLICK -----------------------------
+			 incrementCounter() {
+				 const monster = event.target;
+				this.setState({
+					counter: this.state.counter + 1
+				});
+			}
+			
+			// ----------------------------- UPDATE DAMAGE/SEC -----------------------------
+			updateDamagePerSecond() {
+				this.setState((state) => {
+					const totalDamage = state.firstWarrior.count + state.secondWarrior.count + state.thirdWarrior.count + state.fourthWarrior.count + state.fifthWarrior.count;
+
+					return state.damagePerSecond = totalDamage;
+				});
+			}
+
+			/*
+			XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX WARRIORS XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			*/
+
+			// ----------------------------- 1ST WARRIOR -----------------------------
+      recruitFirstWarrior() {
+				const card = document.getElementById('first_warrior_card');
+				card.classList.remove('bg-secondary');
+				card.classList.add('bg-danger');
+
+
+				this.setState({
+					firstWarrior: {
+						...this.state.firstWarrior,
+						count: this.state.firstWarrior.count + this.state.firstWarrior.damage
+					},
+					counter: this.state.counter - this.state.firstWarrior.recruitCost
+				});
+				this.updateDamagePerSecond();
+
+				event.target.remove();
+			}
+			
+			improveFirstWarrior() {
+				this.setState({
+					firstWarrior: {
+						...this.state.firstWarrior,
+						improveCost: Math.ceil(this.state.firstWarrior.improveCost * 1.2),
+						count: this.state.firstWarrior.count + this.state.firstWarrior.damage,
+					},
+					counter: this.state.counter - this.state.firstWarrior.improveCost
+				});
+				this.updateDamagePerSecond();
+			}
+
+      // ----------------------------- 2ND WARRIOR -----------------------------
+			recruitSecondWarrior() {
+				const card = document.getElementById('second_warrior_card');
+				card.classList.remove('bg-secondary');
+				card.classList.add('bg-danger');
+
+				this.setState({
+					secondWarrior: {
+						...this.state.secondWarrior,
+						count: this.state.secondWarrior.count + this.state.secondWarrior.damage
+					},
+					counter: this.state.counter - this.state.secondWarrior.recruitCost
+				});
+				this.updateDamagePerSecond();
+
+				event.target.remove();
+			}
+			
+			improveSecondWarrior() {
+				this.setState({
+					secondWarrior: {
+						...this.state.secondWarrior,
+						improveCost: Math.ceil(this.state.secondWarrior.improveCost * 1.5),
+						count: this.state.secondWarrior.count + this.state.secondWarrior.damage,
+					},
+					counter: this.state.counter - this.state.secondWarrior.improveCost
+				});
+				this.updateDamagePerSecond();
+			}
+			
+
+      // ----------------------------- 3RD WARRIOR -----------------------------
+			recruitThirdWarrior() {
+				const card = document.getElementById('third_warrior_card');
+				card.classList.remove('bg-secondary');
+				card.classList.add('bg-danger');
+
+				this.setState({
+					thirdWarrior: {
+						...this.state.thirdWarrior,
+						count: this.state.thirdWarrior.count + this.state.thirdWarrior.damage
+					},
+					counter: this.state.counter - this.state.thirdWarrior.recruitCost
+				});
+				this.updateDamagePerSecond();
+
+				event.target.remove();
+			}
+			
+			improveThirdWarrior() {
+				this.setState({
+					thirdWarrior: {
+						...this.state.thirdWarrior,
+						improveCost: Math.ceil(this.state.thirdWarrior.improveCost * 1.7),
+						count: this.state.thirdWarrior.count + this.state.thirdWarrior.damage,
+					},
+					counter: this.state.counter - this.state.thirdWarrior.improveCost
+				});
+				this.updateDamagePerSecond();
+			}
+			
+
+      // ----------------------------- 4TH WARRIOR -----------------------------
+			recruitFourthWarrior() {
+				const card = document.getElementById('fourth_warrior_card');
+				card.classList.remove('bg-secondary');
+				card.classList.add('bg-danger');
+
+				this.setState({
+					fourthWarrior: {
+						...this.state.fourthWarrior,
+						count: this.state.fourthWarrior.count + this.state.fourthWarrior.damage
+					},
+					counter: this.state.counter - this.state.fourthWarrior.recruitCost
+				});
+				this.updateDamagePerSecond();
+
+				event.target.remove();
+			}
+			
+			improveFourthWarrior() {
+				this.setState({
+					fourthWarrior: {
+						...this.state.fourthWarrior,
+						improveCost: Math.ceil(this.state.fourthWarrior.improveCost * 1.9),
+						count: this.state.fourthWarrior.count + this.state.fourthWarrior.damage,
+					},
+					counter: this.state.counter - this.state.fourthWarrior.improveCost
+				});
+				this.updateDamagePerSecond();
+			}
+			
+      // ----------------------------- 5TH WARRIOR -----------------------------	
+			recruitFifthWarrior() {
+				const card = document.getElementById('fifth_warrior_card');
+				card.classList.remove('bg-secondary');
+				card.classList.add('bg-danger');
+
+				this.setState({
+					fifthWarrior: {
+						...this.state.fifthWarrior,
+						count: this.state.fifthWarrior.count + this.state.fifthWarrior.damage
+					},
+					counter: this.state.counter - this.state.fifthWarrior.recruitCost
+				});
+				this.updateDamagePerSecond();
+
+				event.target.remove();
+			}
+			
+			improveFifthWarrior() {
+				this.setState({
+					fifthWarrior: {
+						...this.state.fifthWarrior,
+						improveCost: Math.ceil(this.state.fifthWarrior.improveCost * 2),
+						count: this.state.fifthWarrior.count + this.state.fifthWarrior.damage,
+					},
+					counter: this.state.counter - this.state.fifthWarrior.improveCost
+				});
+				this.updateDamagePerSecond();
+			}
+  }
+
+  // Rendu dans le DOM
+  ReactDOM.render(
+    <App/>,
+    document.getElementById('root')
+  );
+</script>
+
+		<!-- BOOTSTRAP -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+
+</html>
